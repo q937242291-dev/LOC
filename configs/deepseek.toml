@@ -1,0 +1,26 @@
+[model]
+provider = "compatible"
+model = "deepseek-v4-pro"
+base_url = "https://api.deepseek.com"
+api_key_env = "LOCUS_API_KEY"
+timeout_seconds = 180
+seed_mode = "off"
+
+[model.extra_body]
+thinking = { type = "disabled" }
+
+[agent]
+total_calls = 250
+packet_tokens = 16000
+request_input_tokens = 128000
+output_tokens = 32768
+temperature = 0.7
+top_p = 1.0
+frontier_size = 5
+debate_rounds = 3
+stability_window = 2
+reserve_calls = 40
+reserve_seconds = 300
+tokenizer_model = "deepseek-ai/DeepSeek-V4-Pro"
+seed = 0
+

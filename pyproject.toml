@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "locus-icde"
+version = "1.0.0"
+description = "Adaptive resource-control agent for repository repair"
+requires-python = ">=3.11"
+dependencies = ["tiktoken>=0.9,<1"]
+
+[project.optional-dependencies]
+datasets = ["datasets>=3,<5"]
+benchmarks = ["datasets>=3,<5"]
+tokenizers = ["transformers>=4.51,<6", "sentencepiece>=0.2,<1"]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+locus = "locus.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

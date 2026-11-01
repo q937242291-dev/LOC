@@ -1,0 +1,50 @@
+# Argument templates run from the corresponding upstream repository.
+# Keys remain in provider environment variables.
+# The dual sampling overrides target compatible endpoints; see docs/upstream_sampling.md for Sonnet.
+
+[systems.swe-agent]
+benchmarks = ["lite"]
+source = "https://github.com/SWE-agent/SWE-agent"
+usage = "https://swe-agent.com/latest/usage/batch_mode/"
+argv = ["sweagent", "run-batch", "--config", "config/default.yaml", "--agent.model.name", "{model}", "--agent.model.temperature", "0.7", "--agent.model.top_p", "1.0", "--instances.type", "swe_bench", "--instances.subset", "lite", "--instances.split", "test", "--num_workers", "{workers}", "--output_dir", "{output}"]
+
+[systems.agentless]
+source = "https://github.com/OpenAutoCoder/Agentless"
+usage = "https://github.com/OpenAutoCoder/Agentless/blob/main/README_swebench.md"
+integration = "upstream_predictions"
+
+[systems.openhands]
+benchmarks = ["lite"]
+source = "https://github.com/OpenHands/OpenHands"
+usage = "https://github.com/OpenHands/benchmarks/blob/main/benchmarks/swebench/README.md"
+# Set temperature=0.7 and top_p=1.0 in llm_config for compatible model endpoints.
+argv = ["uv", "run", "swebench-infer", "{llm_config}", "--dataset", "princeton-nlp/SWE-bench_Lite", "--split", "test", "--workspace", "docker", "--max-iterations", "250", "--num-workers", "{workers}", "--output-dir", "{output}"]
+
+[systems.live-swe-agent]
+source = "https://github.com/OpenAutoCoder/live-swe-agent"
+usage = "https://github.com/OpenAutoCoder/live-swe-agent#-setup"
+runtime = "mini-swe-agent~=1.0"
+integration = "upstream_predictions"
+
+[systems.cca]
+source = "https://github.com/facebookresearch/cca-swebench"
+usage = "https://github.com/facebookresearch/cca-swebench#getting-started"
+integration = "upstream_predictions"
+
+[systems.claude-code]
+source = "https://code.claude.com/docs/en/overview"
+usage = "https://code.claude.com/docs/en/overview"
+benchmark_usage = "https://github.com/scaleapi/SWE-bench_Pro-os/blob/main/v2/README.md"
+integration = "upstream_predictions"
+
+[systems.codex]
+source = "https://developers.openai.com/codex/cli"
+usage = "https://developers.openai.com/codex/cli"
+benchmark_usage = "https://github.com/scaleapi/SWE-bench_Pro-os/blob/main/v2/README.md"
+integration = "upstream_predictions"
+
+[systems.mini-swe-agent]
+benchmarks = ["lite"]
+source = "https://github.com/SWE-agent/mini-swe-agent"
+usage = "https://mini-swe-agent.com/latest/usage/swebench/"
+argv = ["mini-extra", "swebench", "--subset", "lite", "--split", "test", "--model", "{model}", "-c", "swebench.yaml", "-c", "model.model_kwargs.temperature=0.7", "-c", "model.model_kwargs.top_p=1.0", "--workers", "{workers}", "--output", "{output}"]
